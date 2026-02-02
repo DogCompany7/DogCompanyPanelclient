@@ -1,11 +1,636 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Dog Company Panel</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dog Company — Panel de Cliente</title>
+  <meta name="description" content="Panel de cliente para consultar reservas en Dog Company." />
+
+  <style>
+    :root{
+      --bg: #0b0f14;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.09);
+      --line: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --muted2: rgba(255,255,255,.52);
+      --accent: #f7c948; /* amarillo suave */
+      --ok: #22c55e;
+      --warn: #f59e0b;
+      --done: #a1a1aa;
+      --danger: #ef4444;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 22px;
+      --max: 1100px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% 0%, rgba(247,201,72,.18), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(34,197,94,.10), transparent 60%),
+        radial-gradient(900px 600px at 50% 120%, rgba(99,102,241,.12), transparent 55%),
+        var(--bg);
+      min-height:100vh;
+    }
+
+    a{ color:inherit; }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 18px 48px;
+    }
+
+    .top{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      margin-bottom: 18px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:260px;
+    }
+
+    .logo{
+      width:42px;height:42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(247,201,72,.95), rgba(247,201,72,.15));
+      box-shadow: 0 10px 30px rgba(247,201,72,.18);
+      position:relative;
+      overflow:hidden;
+    }
+    .logo:before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.65), transparent 55%);
+      transform: rotate(18deg);
+    }
+
+    .brand h1{
+      font-size: 16px;
+      margin:0;
+      letter-spacing:.2px;
+      font-weight: 700;
+    }
+    .brand p{
+      margin:2px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      backdrop-filter: blur(8px);
+    }
+
+    .main{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 900px){
+      .main{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+      border: 1px solid var(--line);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hd{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--line);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+    }
+
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .title h2{
+      margin:0;
+      font-size: 14px;
+      letter-spacing:.2px;
+    }
+    .title .sub{
+      margin:0;
+      font-size: 12px;
+      color: var(--muted);
+      line-height:1.35;
+    }
+
+    .content{
+      padding: 14px 16px 16px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .res{
+      display:flex;
+      gap: 12px;
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.045);
+    }
+
+    .res .left{
+      flex:1;
+      min-width: 0;
+    }
+
+    .dog{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin-bottom: 6px;
+      flex-wrap:wrap;
+    }
+
+    .dog .name{
+      font-weight: 750;
+      font-size: 14px;
+      letter-spacing:.2px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      white-space:nowrap;
+    }
+
+    .badge .dot{
+      width:8px;height:8px;border-radius:50%;
+      background: var(--done);
+    }
+    .badge.ok .dot{ background: var(--ok); }
+    .badge.warn .dot{ background: var(--warn); }
+    .badge.done .dot{ background: var(--done); }
+    .badge.danger .dot{ background: var(--danger); }
+
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height:1.35;
+    }
+
+    .meta .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color: rgba(255,255,255,.78);
+    }
+
+    .note{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px dashed rgba(247,201,72,.35);
+      background: rgba(247,201,72,.07);
+      color: rgba(255,255,255,.82);
+      font-size: 12px;
+      line-height:1.45;
+    }
+
+    .empty{
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .small{
+      color: var(--muted2);
+      font-size: 12px;
+      line-height:1.45;
+    }
+
+    .kbox{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top: 8px;
+    }
+
+    .input{
+      flex: 1;
+      min-width: 220px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      outline:none;
+    }
+
+    .btn{
+      cursor:pointer;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(247,201,72,.45);
+      background: rgba(247,201,72,.15);
+      color: rgba(255,255,255,.92);
+      font-weight: 700;
+      letter-spacing:.2px;
+    }
+    .btn:hover{ background: rgba(247,201,72,.22); }
+
+    .footer{
+      margin-top: 14px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      color: var(--muted2);
+      font-size: 12px;
+    }
+
+    .hr{
+      height:1px;
+      background: rgba(255,255,255,.08);
+      margin: 10px 0 0;
+    }
+
+    .rightBox{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .infoList{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .infoItem{
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.035);
+    }
+
+    .infoItem .k{
+      font-size: 12px;
+      color: var(--muted2);
+      margin-bottom: 6px;
+    }
+
+    .infoItem .v{
+      font-size: 13px;
+      color: rgba(255,255,255,.86);
+      line-height:1.45;
+    }
+
+    .warnBox{
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(239,68,68,.25);
+      background: rgba(239,68,68,.08);
+      color: rgba(255,255,255,.86);
+      font-size: 12px;
+      line-height:1.5;
+    }
+  </style>
 </head>
-<body style="font-family: Arial; text-align:center; margin-top:100px;">
-  <h1>Dog Company — Panel de Cliente</h1>
-  <p>En construcción...</p>
+
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Dog Company — Panel de Cliente</h1>
+          <p>Consulta tus reservas con nosotras</p>
+        </div>
+      </div>
+      <div class="pill" id="pillStatus">● Cargando…</div>
+    </div>
+
+    <div class="main">
+      <section class="card">
+        <div class="hd">
+          <div class="title">
+            <h2>Mis reservas</h2>
+            <p class="sub">Este panel es privado. Si has llegado por WhatsApp, solo tienes que abrir tu enlace personal.</p>
+          </div>
+        </div>
+        <div class="content">
+          <div id="needKey" class="empty" style="display:none;">
+            <div><b>No se ha detectado tu enlace privado.</b></div>
+            <div class="small" style="margin-top:6px;">
+              Abre el link que te enviamos por WhatsApp. Si estás probando ahora, escribe tu código:
+            </div>
+            <div class="kbox">
+              <input class="input" id="keyInput" placeholder="Ej: demo123" />
+              <button class="btn" id="keyBtn">Ver mis reservas</button>
+            </div>
+          </div>
+
+          <div id="list" class="grid" style="display:none;"></div>
+
+          <div id="emptyState" class="empty" style="display:none;">
+            No hay reservas asociadas a este enlace.
+            <div class="hr"></div>
+            <div class="small" style="margin-top:10px;">
+              Si crees que es un error, escríbenos por WhatsApp y lo revisamos.
+            </div>
+          </div>
+
+          <div id="errorState" class="warnBox" style="display:none;"></div>
+
+          <div class="footer">
+            <div id="clientLabel">—</div>
+            <div>© Dog Company</div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="rightBox">
+        <section class="card">
+          <div class="hd">
+            <div class="title">
+              <h2>Información</h2>
+              <p class="sub">Detalles útiles para tu entrada y estancia.</p>
+            </div>
+          </div>
+          <div class="content">
+            <div class="infoList">
+              <div class="infoItem">
+                <div class="k">Punto de encuentro</div>
+                <div class="v">Puerta principal de Renfe. Desde allí damos un paseo corto para observar al perro en entorno neutro.</div>
+              </div>
+              <div class="infoItem">
+                <div class="k">Adaptación primera vez</div>
+                <div class="v">Recomendamos guardería previa o mínimo 48h antes de estancias largas para que se habitúe al entorno.</div>
+              </div>
+              <div class="infoItem">
+                <div class="k">Contacto</div>
+                <div class="v">Si necesitas cambiar algo, responde al WhatsApp del que recibiste el enlace.</div>
+              </div>
+              <div class="small">* Este panel es solo informativo. Las reservas se confirman por WhatsApp.</div>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    // ===== CONFIG =====
+    // 1) Sustituye esta URL por el CSV público de Google Sheets (lo haremos cuando lo tengas).
+    const CSV_URL = "PON_AQUI_TU_CSV_PUBLICO";
+
+    // ===== HELPERS =====
+    const $ = (id) => document.getElementById(id);
+
+    function getQueryParam(name){
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+
+    function setPill(txt){
+      $("pillStatus").textContent = txt;
+    }
+
+    function norm(s){
+      return (s ?? "").toString().trim();
+    }
+
+    function parseCSV(text){
+      // CSV simple: comillas dobles soportadas.
+      const rows = [];
+      let i=0, field="", row=[], inQ=false;
+      while(i < text.length){
+        const c = text[i];
+        if(inQ){
+          if(c === '"'){
+            if(text[i+1] === '"'){ field += '"'; i++; }
+            else inQ = false;
+          } else field += c;
+        } else {
+          if(c === '"') inQ = true;
+          else if(c === ','){ row.push(field); field=""; }
+          else if(c === '\n'){
+            row.push(field); field="";
+            rows.push(row); row=[];
+          } else if(c !== '\r'){ field += c; }
+        }
+        i++;
+      }
+      if(field.length || row.length){
+        row.push(field);
+        rows.push(row);
+      }
+      const headers = (rows.shift() || []).map(h => norm(h));
+      return rows
+        .filter(r => r.some(x => norm(x).length))
+        .map(r => {
+          const obj = {};
+          headers.forEach((h, idx) => obj[h] = norm(r[idx] ?? ""));
+          return obj;
+        });
+    }
+
+    function parseDateISO(s){
+      // Esperamos YYYY-MM-DD
+      const t = norm(s);
+      if(!t) return null;
+      const m = t.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if(!m) return null;
+      const y = Number(m[1]), mo = Number(m[2])-1, d = Number(m[3]);
+      const dt = new Date(Date.UTC(y, mo, d));
+      return isNaN(dt.getTime()) ? null : dt;
+    }
+
+    function fmtDate(dt){
+      if(!dt) return "—";
+      const d = dt.getUTCDate().toString().padStart(2,'0');
+      const m = (dt.getUTCMonth()+1).toString().padStart(2,'0');
+      const y = dt.getUTCFullYear();
+      return `${d}/${m}/${y}`;
+    }
+
+    function statusClass(estado){
+      const e = norm(estado).toLowerCase();
+      if(e.includes("confirm")) return {cls:"ok", label:"Confirmada"};
+      if(e.includes("pend")) return {cls:"warn", label:"Pendiente"};
+      if(e.includes("cancel")) return {cls:"danger", label:"Cancelada"};
+      if(e.includes("complet") || e.includes("final")) return {cls:"done", label:"Completada"};
+      return {cls:"done", label: norm(estado) || "—"};
+    }
+
+    function buildCard(r){
+      const dog = r.perro_nombre || "Reserva";
+      const fIn = fmtDate(parseDateISO(r.fecha_entrada));
+      const fOut = fmtDate(parseDateISO(r.fecha_salida));
+      const svc = r.servicio || "—";
+      const st = statusClass(r.estado);
+
+      const note = norm(r.notas_cliente);
+      const noteHtml = note ? `<div class="note"><b>Nota:</b> ${escapeHtml(note)}</div>` : "";
+
+      return `
+        <div class="res">
+          <div class="left">
+            <div class="dog">
+              <div class="name">${escapeHtml(dog)}</div>
+              <div class="badge ${st.cls}">
+                <span class="dot"></span>
+                <span>${escapeHtml(st.label)}</span>
+              </div>
+            </div>
+            <div class="meta">
+              <div class="tag">📅 ${escapeHtml(fIn)} → ${escapeHtml(fOut)}</div>
+              <div class="tag">🐾 ${escapeHtml(svc)}</div>
+            </div>
+            ${noteHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    function escapeHtml(str){
+      return (str ?? "").toString()
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function sortReservations(items){
+      // Ordena por fecha_entrada asc (nulls al final)
+      return items.slice().sort((a,b)=>{
+        const da = parseDateISO(a.fecha_entrada)?.getTime();
+        const db = parseDateISO(b.fecha_entrada)?.getTime();
+        if(da == null && db == null) return 0;
+        if(da == null) return 1;
+        if(db == null) return -1;
+        return da - db;
+      });
+    }
+
+    function setClientLabel(items){
+      const n = norm(items[0]?.cliente_nombre);
+      const w = norm(items[0]?.cliente_whatsapp);
+      const label = n ? `Cliente: ${n}${w ? " · " + w : ""}` : (w ? `Cliente: ${w}` : "—");
+      $("clientLabel").textContent = label;
+    }
+
+    // ===== MAIN =====
+    async function loadData(clientKey){
+      $("errorState").style.display = "none";
+      $("emptyState").style.display = "none";
+      $("list").style.display = "none";
+
+      if(!CSV_URL || CSV_URL.includes("PON_AQUI")){
+        setPill("● Falta conectar datos");
+        $("errorState").style.display = "block";
+        $("errorState").innerHTML =
+          "Falta conectar el CSV público de Google Sheets.<br><br>" +
+          "Cuando tengas la hoja lista, te digo qué URL pegar en <b>CSV_URL</b> y queda funcionando.";
+        return;
+      }
+
+      setPill("● Cargando reservas…");
+      const res = await fetch(CSV_URL, { cache: "no-store" });
+      if(!res.ok) throw new Error("No se pudo cargar el CSV. Revisa que esté publicado y accesible.");
+      const csv = await res.text();
+      const data = parseCSV(csv);
+
+      const key = norm(clientKey);
+      const mine = data.filter(r => norm(r.client_key) === key);
+
+      if(!mine.length){
+        setPill("● Sin reservas");
+        $("emptyState").style.display = "block";
+        return;
+      }
+
+      const sorted = sortReservations(mine);
+      setClientLabel(sorted);
+
+      $("list").innerHTML = sorted.map(buildCard).join("");
+      $("list").style.display = "grid";
+      setPill("● Listo");
+    }
+
+    function init(){
+      const k = norm(getQueryParam("k"));
+
+      // Si no hay k, mostramos input manual
+      if(!k){
+        setPill("● Esperando enlace");
+        $("needKey").style.display = "block";
+        $("keyBtn").addEventListener("click", ()=>{
+          const entered = norm($("keyInput").value);
+          if(!entered) return;
+          const url = new URL(window.location.href);
+          url.searchParams.set("k", entered);
+          window.location.href = url.toString();
+        });
+        return;
+      }
+
+      $("needKey").style.display = "none";
+      loadData(k).catch(err=>{
+        setPill("● Error");
+        $("errorState").style.display = "block";
+        $("errorState").textContent = err.message || "Error desconocido";
+      });
+    }
+
+    init();
+  </script>
 </body>
 </html>
