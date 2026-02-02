@@ -10,12 +10,11 @@
     :root{
       --bg: #0b0f14;
       --card: rgba(255,255,255,.06);
-      --card2: rgba(255,255,255,.09);
       --line: rgba(255,255,255,.10);
       --text: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.68);
       --muted2: rgba(255,255,255,.52);
-      --accent: #f7c948; /* amarillo suave */
+      --accent: #f7c948;
       --ok: #22c55e;
       --warn: #f59e0b;
       --done: #a1a1aa;
@@ -25,11 +24,10 @@
       --radius2: 22px;
       --max: 1100px;
     }
-
     *{ box-sizing:border-box; }
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       color: var(--text);
       background:
         radial-gradient(1200px 600px at 20% 0%, rgba(247,201,72,.18), transparent 60%),
@@ -38,82 +36,35 @@
         var(--bg);
       min-height:100vh;
     }
-
-    a{ color:inherit; }
-
-    .wrap{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 28px 18px 48px;
-    }
-
+    .wrap{ max-width: var(--max); margin: 0 auto; padding: 28px 18px 48px; }
     .top{
-      display:flex;
-      gap:14px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      margin-bottom: 18px;
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
+      flex-wrap:wrap; margin-bottom: 18px;
     }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width:260px;
-    }
-
+    .brand{ display:flex; align-items:center; gap:12px; min-width:260px; }
     .logo{
-      width:42px;height:42px;
-      border-radius: 14px;
+      width:42px;height:42px; border-radius: 14px;
       background: linear-gradient(135deg, rgba(247,201,72,.95), rgba(247,201,72,.15));
       box-shadow: 0 10px 30px rgba(247,201,72,.18);
-      position:relative;
-      overflow:hidden;
+      position:relative; overflow:hidden;
     }
     .logo:before{
-      content:"";
-      position:absolute;
-      inset:-40%;
+      content:""; position:absolute; inset:-40%;
       background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.65), transparent 55%);
       transform: rotate(18deg);
     }
-
-    .brand h1{
-      font-size: 16px;
-      margin:0;
-      letter-spacing:.2px;
-      font-weight: 700;
-    }
-    .brand p{
-      margin:2px 0 0;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
+    .brand h1{ font-size: 16px; margin:0; letter-spacing:.2px; font-weight: 800; }
+    .brand p{ margin:2px 0 0; font-size: 12px; color: var(--muted); }
     .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 12px;
-      border:1px solid var(--line);
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px; border:1px solid var(--line);
       background: rgba(255,255,255,.04);
-      border-radius: 999px;
-      font-size: 12px;
-      color: var(--muted);
+      border-radius: 999px; font-size: 12px; color: var(--muted);
       backdrop-filter: blur(8px);
     }
 
-    .main{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 14px;
-      margin-top: 10px;
-    }
-
-    @media (max-width: 900px){
-      .main{ grid-template-columns: 1fr; }
-    }
+    .main{ display:grid; grid-template-columns: 1.1fr .9fr; gap: 14px; margin-top: 10px; }
+    @media (max-width: 900px){ .main{ grid-template-columns: 1fr; } }
 
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
@@ -122,223 +73,104 @@
       box-shadow: var(--shadow);
       overflow:hidden;
     }
+    .hd{
+      padding: 16px 16px 12px; border-bottom: 1px solid var(--line);
+      display:flex; align-items:flex-start; justify-content:space-between; gap: 10px;
+    }
+    .title{ display:flex; flex-direction:column; gap:4px; }
+    .title h2{ margin:0; font-size: 14px; letter-spacing:.2px; }
+    .title .sub{ margin:0; font-size: 12px; color: var(--muted); line-height:1.35; }
+    .content{ padding: 14px 16px 16px; }
 
-    .card .hd{
-      padding: 16px 16px 12px;
-      border-bottom: 1px solid var(--line);
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 10px;
-    }
-
-    .title{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-    }
-    .title h2{
-      margin:0;
-      font-size: 14px;
-      letter-spacing:.2px;
-    }
-    .title .sub{
-      margin:0;
-      font-size: 12px;
-      color: var(--muted);
-      line-height:1.35;
-    }
-
-    .content{
-      padding: 14px 16px 16px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
-
+    .grid{ display:grid; grid-template-columns: 1fr; gap: 10px; }
     .res{
-      display:flex;
-      gap: 12px;
-      padding: 12px;
+      display:flex; gap: 12px; padding: 12px;
       border-radius: var(--radius);
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.045);
     }
-
-    .res .left{
-      flex:1;
-      min-width: 0;
-    }
-
-    .dog{
-      display:flex;
-      gap:8px;
-      align-items:center;
-      margin-bottom: 6px;
-      flex-wrap:wrap;
-    }
-
-    .dog .name{
-      font-weight: 750;
-      font-size: 14px;
-      letter-spacing:.2px;
-    }
-
+    .res .left{ flex:1; min-width: 0; }
+    .dog{ display:flex; gap:8px; align-items:center; margin-bottom: 6px; flex-wrap:wrap; }
+    .dog .name{ font-weight: 800; font-size: 14px; letter-spacing:.2px; }
     .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
+      display:inline-flex; align-items:center; gap:6px;
+      padding: 6px 10px; border-radius: 999px; font-size: 12px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
-      color: var(--muted);
-      white-space:nowrap;
+      color: var(--muted); white-space:nowrap;
     }
-
-    .badge .dot{
-      width:8px;height:8px;border-radius:50%;
-      background: var(--done);
-    }
+    .badge .dot{ width:8px;height:8px;border-radius:50%; background: var(--done); }
     .badge.ok .dot{ background: var(--ok); }
     .badge.warn .dot{ background: var(--warn); }
     .badge.done .dot{ background: var(--done); }
     .badge.danger .dot{ background: var(--danger); }
 
     .meta{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height:1.35;
+      display:flex; flex-wrap:wrap; gap:8px;
+      color: var(--muted); font-size: 12px; line-height:1.35;
     }
-
     .meta .tag{
-      padding: 6px 10px;
-      border-radius: 999px;
+      padding: 6px 10px; border-radius: 999px;
       border:1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.03);
       color: rgba(255,255,255,.78);
     }
-
     .note{
-      margin-top: 10px;
-      padding: 10px 12px;
-      border-radius: 14px;
+      margin-top: 10px; padding: 10px 12px; border-radius: 14px;
       border: 1px dashed rgba(247,201,72,.35);
       background: rgba(247,201,72,.07);
       color: rgba(255,255,255,.82);
-      font-size: 12px;
-      line-height:1.45;
+      font-size: 12px; line-height:1.45;
     }
-
     .empty{
-      padding: 12px;
-      border-radius: var(--radius);
+      padding: 12px; border-radius: var(--radius);
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.03);
       color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
+      font-size: 13px; line-height: 1.5;
     }
+    .small{ color: var(--muted2); font-size: 12px; line-height:1.45; }
 
-    .small{
-      color: var(--muted2);
-      font-size: 12px;
-      line-height:1.45;
-    }
-
-    .kbox{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      margin-top: 8px;
-    }
-
+    .kbox{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top: 8px; }
     .input{
-      flex: 1;
-      min-width: 220px;
-      padding: 12px 12px;
-      border-radius: 14px;
+      flex: 1; min-width: 220px;
+      padding: 12px 12px; border-radius: 14px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(0,0,0,.22);
-      color: var(--text);
-      outline:none;
+      color: var(--text); outline:none;
     }
-
     .btn{
-      cursor:pointer;
-      padding: 12px 14px;
-      border-radius: 14px;
+      cursor:pointer; padding: 12px 14px; border-radius: 14px;
       border: 1px solid rgba(247,201,72,.45);
       background: rgba(247,201,72,.15);
       color: rgba(255,255,255,.92);
-      font-weight: 700;
-      letter-spacing:.2px;
+      font-weight: 800; letter-spacing:.2px;
     }
     .btn:hover{ background: rgba(247,201,72,.22); }
 
     .footer{
-      margin-top: 14px;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-      color: var(--muted2);
-      font-size: 12px;
+      margin-top: 14px; display:flex; justify-content:space-between;
+      gap:10px; flex-wrap:wrap;
+      color: var(--muted2); font-size: 12px;
     }
+    .hr{ height:1px; background: rgba(255,255,255,.08); margin: 10px 0 0; }
 
-    .hr{
-      height:1px;
-      background: rgba(255,255,255,.08);
-      margin: 10px 0 0;
-    }
-
-    .rightBox{
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-
-    .infoList{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
+    .rightBox{ display:flex; flex-direction:column; gap:14px; }
+    .infoList{ display:flex; flex-direction:column; gap:10px; }
     .infoItem{
-      padding: 12px;
-      border-radius: var(--radius);
+      padding: 12px; border-radius: var(--radius);
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.035);
     }
-
-    .infoItem .k{
-      font-size: 12px;
-      color: var(--muted2);
-      margin-bottom: 6px;
-    }
-
-    .infoItem .v{
-      font-size: 13px;
-      color: rgba(255,255,255,.86);
-      line-height:1.45;
-    }
+    .infoItem .k{ font-size: 12px; color: var(--muted2); margin-bottom: 6px; }
+    .infoItem .v{ font-size: 13px; color: rgba(255,255,255,.86); line-height:1.45; }
 
     .warnBox{
-      padding: 12px;
-      border-radius: var(--radius);
+      padding: 12px; border-radius: var(--radius);
       border: 1px solid rgba(239,68,68,.25);
       background: rgba(239,68,68,.08);
       color: rgba(255,255,255,.86);
-      font-size: 12px;
-      line-height:1.5;
+      font-size: 12px; line-height:1.5;
     }
   </style>
 </head>
@@ -361,14 +193,14 @@
         <div class="hd">
           <div class="title">
             <h2>Mis reservas</h2>
-            <p class="sub">Este panel es privado. Si has llegado por WhatsApp, solo tienes que abrir tu enlace personal.</p>
+            <p class="sub">Abre tu enlace personal para ver tu histórico. (Ejemplo: <span style="color:rgba(255,255,255,.85)">?k=demo123</span>)</p>
           </div>
         </div>
         <div class="content">
           <div id="needKey" class="empty" style="display:none;">
-            <div><b>No se ha detectado tu enlace privado.</b></div>
+            <div><b>No se ha detectado tu enlace.</b></div>
             <div class="small" style="margin-top:6px;">
-              Abre el link que te enviamos por WhatsApp. Si estás probando ahora, escribe tu código:
+              Si estás probando ahora, escribe tu código:
             </div>
             <div class="kbox">
               <input class="input" id="keyInput" placeholder="Ej: demo123" />
@@ -382,7 +214,7 @@
             No hay reservas asociadas a este enlace.
             <div class="hr"></div>
             <div class="small" style="margin-top:10px;">
-              Si crees que es un error, escríbenos por WhatsApp y lo revisamos.
+              Si crees que es un error, escríbenos por WhatsApp.
             </div>
           </div>
 
@@ -426,11 +258,9 @@
   </div>
 
   <script>
-    // ===== CONFIG =====
-    // 1) Sustituye esta URL por el CSV público de Google Sheets (lo haremos cuando lo tengas).
-    const CSV_URL = "PON_AQUI_TU_CSV_PUBLICO";
+    // Lee reservas desde el repo (mismo dominio)
+    const DATA_URL = "./data.json";
 
-    // ===== HELPERS =====
     const $ = (id) => document.getElementById(id);
 
     function getQueryParam(name){
@@ -438,51 +268,10 @@
       return url.searchParams.get(name);
     }
 
-    function setPill(txt){
-      $("pillStatus").textContent = txt;
-    }
-
-    function norm(s){
-      return (s ?? "").toString().trim();
-    }
-
-    function parseCSV(text){
-      // CSV simple: comillas dobles soportadas.
-      const rows = [];
-      let i=0, field="", row=[], inQ=false;
-      while(i < text.length){
-        const c = text[i];
-        if(inQ){
-          if(c === '"'){
-            if(text[i+1] === '"'){ field += '"'; i++; }
-            else inQ = false;
-          } else field += c;
-        } else {
-          if(c === '"') inQ = true;
-          else if(c === ','){ row.push(field); field=""; }
-          else if(c === '\n'){
-            row.push(field); field="";
-            rows.push(row); row=[];
-          } else if(c !== '\r'){ field += c; }
-        }
-        i++;
-      }
-      if(field.length || row.length){
-        row.push(field);
-        rows.push(row);
-      }
-      const headers = (rows.shift() || []).map(h => norm(h));
-      return rows
-        .filter(r => r.some(x => norm(x).length))
-        .map(r => {
-          const obj = {};
-          headers.forEach((h, idx) => obj[h] = norm(r[idx] ?? ""));
-          return obj;
-        });
-    }
+    function setPill(txt){ $("pillStatus").textContent = txt; }
+    function norm(s){ return (s ?? "").toString().trim(); }
 
     function parseDateISO(s){
-      // Esperamos YYYY-MM-DD
       const t = norm(s);
       if(!t) return null;
       const m = t.match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -500,6 +289,15 @@
       return `${d}/${m}/${y}`;
     }
 
+    function escapeHtml(str){
+      return (str ?? "").toString()
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
     function statusClass(estado){
       const e = norm(estado).toLowerCase();
       if(e.includes("confirm")) return {cls:"ok", label:"Confirmada"};
@@ -509,13 +307,29 @@
       return {cls:"done", label: norm(estado) || "—"};
     }
 
+    function sortReservations(items){
+      return items.slice().sort((a,b)=>{
+        const da = parseDateISO(a.fecha_entrada)?.getTime();
+        const db = parseDateISO(b.fecha_entrada)?.getTime();
+        if(da == null && db == null) return 0;
+        if(da == null) return 1;
+        if(db == null) return -1;
+        return da - db;
+      });
+    }
+
+    function setClientLabel(items){
+      const n = norm(items[0]?.cliente_nombre);
+      const label = n ? `Cliente: ${n}` : "—";
+      $("clientLabel").textContent = label;
+    }
+
     function buildCard(r){
       const dog = r.perro_nombre || "Reserva";
       const fIn = fmtDate(parseDateISO(r.fecha_entrada));
       const fOut = fmtDate(parseDateISO(r.fecha_salida));
       const svc = r.servicio || "—";
       const st = statusClass(r.estado);
-
       const note = norm(r.notas_cliente);
       const noteHtml = note ? `<div class="note"><b>Nota:</b> ${escapeHtml(note)}</div>` : "";
 
@@ -539,57 +353,19 @@
       `;
     }
 
-    function escapeHtml(str){
-      return (str ?? "").toString()
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
-    function sortReservations(items){
-      // Ordena por fecha_entrada asc (nulls al final)
-      return items.slice().sort((a,b)=>{
-        const da = parseDateISO(a.fecha_entrada)?.getTime();
-        const db = parseDateISO(b.fecha_entrada)?.getTime();
-        if(da == null && db == null) return 0;
-        if(da == null) return 1;
-        if(db == null) return -1;
-        return da - db;
-      });
-    }
-
-    function setClientLabel(items){
-      const n = norm(items[0]?.cliente_nombre);
-      const w = norm(items[0]?.cliente_whatsapp);
-      const label = n ? `Cliente: ${n}${w ? " · " + w : ""}` : (w ? `Cliente: ${w}` : "—");
-      $("clientLabel").textContent = label;
-    }
-
-    // ===== MAIN =====
     async function loadData(clientKey){
       $("errorState").style.display = "none";
       $("emptyState").style.display = "none";
       $("list").style.display = "none";
 
-      if(!CSV_URL || CSV_URL.includes("PON_AQUI")){
-        setPill("● Falta conectar datos");
-        $("errorState").style.display = "block";
-        $("errorState").innerHTML =
-          "Falta conectar el CSV público de Google Sheets.<br><br>" +
-          "Cuando tengas la hoja lista, te digo qué URL pegar en <b>CSV_URL</b> y queda funcionando.";
-        return;
-      }
-
       setPill("● Cargando reservas…");
-      const res = await fetch(CSV_URL, { cache: "no-store" });
-      if(!res.ok) throw new Error("No se pudo cargar el CSV. Revisa que esté publicado y accesible.");
-      const csv = await res.text();
-      const data = parseCSV(csv);
+
+      const res = await fetch(DATA_URL, { cache: "no-store" });
+      if(!res.ok) throw new Error("No se pudo cargar data.json (revisa que exista y esté en el repo).");
+      const data = await res.json();
 
       const key = norm(clientKey);
-      const mine = data.filter(r => norm(r.client_key) === key);
+      const mine = (Array.isArray(data) ? data : []).filter(r => norm(r.client_key) === key);
 
       if(!mine.length){
         setPill("● Sin reservas");
@@ -608,7 +384,6 @@
     function init(){
       const k = norm(getQueryParam("k"));
 
-      // Si no hay k, mostramos input manual
       if(!k){
         setPill("● Esperando enlace");
         $("needKey").style.display = "block";
