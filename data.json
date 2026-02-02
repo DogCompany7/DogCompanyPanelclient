@@ -1,0 +1,22 @@
+[
+  {
+    "client_key": "demo123",
+    "cliente_nombre": "Sandra",
+    "perro_nombre": "Haku",
+    "fecha_entrada": "2026-03-05",
+    "fecha_salida": "2026-03-10",
+    "servicio": "Alojamiento",
+    "estado": "Confirmada",
+    "notas_cliente": "Punto de encuentro Renfe"
+  },
+  {
+    "client_key": "demo123",
+    "cliente_nombre": "Sandra",
+    "perro_nombre": "Haku",
+    "fecha_entrada": "2026-04-02",
+    "fecha_salida": "2026-04-05",
+    "servicio": "Guardería",
+    "estado": "Pendiente",
+    "notas_cliente": ""
+  }
+]
