@@ -18,5 +18,15 @@
     "servicio": "Guardería",
     "estado": "Pendiente",
     "notas_cliente": ""
+  },
+  {
+    "client_key": "fbdsfbgsdfb",
+    "cliente_nombre": "dfbsdfb",
+    "perro_nombre": "sdfgbsdf",
+    "fecha_entrada": "2026-02-22",
+    "fecha_salida": "2026-02-25",
+    "servicio": "Alojamiento",
+    "estado": "Pendiente",
+    "notas_cliente": ""
   }
 ]
