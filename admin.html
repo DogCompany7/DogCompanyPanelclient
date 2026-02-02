@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dog Company — Admin Panel</title>
+  <style>
+    :root{
+      --bg:#0b0f14; --text:rgba(255,255,255,.92); --muted:rgba(255,255,255,.65);
+      --card:rgba(255,255,255,.06); --line:rgba(255,255,255,.12);
+      --accent:#f7c948; --ok:#22c55e; --danger:#ef4444;
+      --radius:18px; --radius2:22px; --shadow:0 20px 60px rgba(0,0,0,.35);
+      --max:1050px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 600px at 20% 0%, rgba(247,201,72,.18), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(34,197,94,.10), transparent 60%),
+        radial-gradient(900px 600px at 50% 120%, rgba(99,102,241,.12), transparent 55%),
+        var(--bg);
+      min-height:100vh;
+    }
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 52px;}
+    .top{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+    .brand{display:flex; align-items:center; gap:12px;}
+    .logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg, rgba(247,201,72,.95), rgba(247,201,72,.15)); box-shadow:0 10px 30px rgba(247,201,72,.18);}
+    h1{font-size:16px; margin:0; font-weight:850;}
+    .sub{margin:2px 0 0; font-size:12px; color:var(--muted);}
+    .pill{padding:10px 12px; border:1px solid var(--line); background:rgba(255,255,255,.04); border-radius:999px; font-size:12px; color:var(--muted);}
+    .grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px;}
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr;} }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+      border:1px solid var(--line); border-radius:var(--radius2); box-shadow:var(--shadow); overflow:hidden;
+    }
+    .hd{padding:16px 16px 12px; border-bottom:1px solid var(--line);}
+    .hd h2{margin:0; font-size:14px; font-weight:850;}
+    .hd p{margin:6px 0 0; font-size:12px; color:var(--muted); line-height:1.4;}
+    .content{padding:14px 16px 16px;}
+    label{display:block; font-size:12px; color:var(--muted); margin:10px 0 6px;}
+    input, select, textarea{
+      width:100%; padding:12px 12px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.22); color:var(--text); outline:none;
+    }
+    textarea{min-height:90px; resize:vertical;}
+    .row{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+    @media (max-width: 680px){ .row{grid-template-columns:1fr;} }
+    .btns{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;}
+    .btn{
+      cursor:pointer; padding:12px 14px; border-radius:14px; font-weight:850; letter-spacing:.2px;
+      border:1px solid rgba(247,201,72,.45); background:rgba(247,201,72,.15); color:rgba(255,255,255,.92);
+    }
+    .btn:hover{background:rgba(247,201,72,.22)}
+    .btn2{
+      cursor:pointer; padding:12px 14px; border-radius:14px; font-weight:850; letter-spacing:.2px;
+      border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.05); color:rgba(255,255,255,.9);
+    }
+    .btnDanger{
+      border:1px solid rgba(239,68,68,.4); background:rgba(239,68,68,.10);
+    }
+    .note{
+      margin-top:10px; padding:12px; border-radius:14px;
+      border:1px dashed rgba(247,201,72,.35); background:rgba(247,201,72,.07);
+      color:rgba(255,255,255,.82); font-size:12px; line-height:1.45;
+    }
+    .warn{
+      margin-top:10px; padding:12px; border-radius:14px;
+      border:1px solid rgba(239,68,68,.25); background:rgba(239,68,68,.08);
+      color:rgba(255,255,255,.86); font-size:12px; line-height:1.45;
+      display:none;
+    }
+    .ok{
+      margin-top:10px; padding:12px; border-radius:14px;
+      border:1px solid rgba(34,197,94,.25); background:rgba(34,197,94,.08);
+      color:rgba(255,255,255,.86); font-size:12px; line-height:1.45;
+      display:none;
+    }
+    .list{
+      display:grid; grid-template-columns:1fr; gap:10px;
+    }
+    .item{
+      padding:12px; border-radius:18px; border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.045);
+      display:flex; gap:10px; justify-content:space-between; align-items:flex-start;
+    }
+    .item b{display:block; font-size:13px;}
+    .meta{margin-top:6px; font-size:12px; color:var(--muted); line-height:1.4;}
+    .tiny{font-size:11px; color:rgba(255,255,255,.55); margin-top:8px;}
+    .hr{height:1px; background:rgba(255,255,255,.08); margin:14px 0 0;}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <h1>Dog Company — Admin Panel</h1>
+        <div class="sub">Añadir reservas y actualizar <code>data.json</code> con commit automático</div>
+      </div>
+    </div>
+    <div class="pill" id="statusPill">● Listo</div>
+  </div>
+
+  <div class="grid">
+    <section class="card">
+      <div class="hd">
+        <h2>Acceso (token GitHub)</h2>
+        <p>Necesitas un token con permiso <b>Contents: Read/Write</b> para este repo. Se guarda en tu navegador.</p>
+      </div>
+      <div class="content">
+        <label>Token</label>
+        <input id="token" type="password" placeholder="Pega aquí tu token (fine-grained PAT)" />
+        <div class="btns">
+          <button class="btn" id="saveToken">Guardar token</button>
+          <button class="btn2 btnDanger" id="clearToken">Borrar token</button>
+        </div>
+        <div class="note">
+          URL del panel cliente: <code id="clientUrl">—</code>
+        </div>
+        <div class="warn" id="warnBox"></div>
+        <div class="ok" id="okBox"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="hd">
+        <h2>Nueva reserva</h2>
+        <p>Rellena y guarda. Se añadirá una línea en <code>data.json</code>.</p>
+      </div>
+      <div class="content">
+        <label>client_key (código del cliente)</label>
+        <input id="client_key" placeholder="Ej: ikram01" />
+
+        <div class="row">
+          <div>
+            <label>Cliente (nombre)</label>
+            <input id="cliente_nombre" placeholder="Ej: Ikram" />
+          </div>
+          <div>
+            <label>Perro</label>
+            <input id="perro_nombre" placeholder="Ej: Nala" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Entrada (YYYY-MM-DD)</label>
+            <input id="fecha_entrada" placeholder="2026-03-05" />
+          </div>
+          <div>
+            <label>Salida (YYYY-MM-DD)</label>
+            <input id="fecha_salida" placeholder="2026-03-10" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Servicio</label>
+            <select id="servicio">
+              <option value="Alojamiento">Alojamiento</option>
+              <option value="Guardería">Guardería</option>
+            </select>
+          </div>
+          <div>
+            <label>Estado</label>
+            <select id="estado">
+              <option value="Pendiente">Pendiente</option>
+              <option value="Confirmada">Confirmada</option>
+              <option value="Completada">Completada</option>
+              <option value="Cancelada">Cancelada</option>
+            </select>
+          </div>
+        </div>
+
+        <label>Notas para el cliente</label>
+        <textarea id="notas_cliente" placeholder="Ej: Punto de encuentro Renfe"></textarea>
+
+        <div class="btns">
+          <button class="btn" id="addReserva">Guardar reserva</button>
+          <button class="btn2" id="reload">Recargar data.json</button>
+        </div>
+
+        <div class="tiny">
+          El enlace del cliente será: <code id="clientLink">—</code>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="grid-column:1/-1;">
+      <div class="hd">
+        <h2>Vista rápida (data.json)</h2>
+        <p>Últimas entradas para verificar.</p>
+      </div>
+      <div class="content">
+        <div class="list" id="list"></div>
+        <div class="hr"></div>
+        <div class="tiny">Si no ves cambios, refresca duro (Ctrl+F5) o espera 20–60s por caché de Pages.</div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+  // === CONFIG REPO ===
+  const OWNER = "DogCompany7";
+  const REPO  = "DogComapnyPanelclient"; // nombre EXACTO del repo
+  const FILE_PATH = "data.json";
+  const BRANCH = "main";
+
+  // === UI ===
+  const $ = (id)=>document.getElementById(id);
+  const statusPill = $("statusPill");
+  const warnBox = $("warnBox");
+  const okBox = $("okBox");
+
+  function setStatus(s){ statusPill.textContent = "● " + s; }
+  function showWarn(msg){ warnBox.style.display="block"; warnBox.textContent = msg; okBox.style.display="none"; }
+  function showOk(msg){ okBox.style.display="block"; okBox.textContent = msg; warnBox.style.display="none"; }
+  function hideAlerts(){ warnBox.style.display="none"; okBox.style.display="none"; }
+  function norm(s){ return (s??"").toString().trim(); }
+
+  function clientPanelBase(){
+    const u = new URL(window.location.href);
+    u.pathname = u.pathname.replace(/\/admin\.html$/,"/"); // base
+    u.search = "";
+    u.hash = "";
+    return u.toString();
+  }
+
+  function updateClientLink(){
+    const k = norm($("client_key").value);
+    const base = clientPanelBase();
+    const link = k ? (base + (base.includes("?") ? "&" : "?") + "k=" + encodeURIComponent(k)) : "—";
+    $("clientLink").textContent = link;
+    $("clientUrl").textContent = base;
+  }
+
+  $("client_key").addEventListener("input", updateClientLink);
+
+  // === TOKEN STORAGE ===
+  const TOKEN_KEY = "dc_admin_github_token";
+  function getToken(){ return localStorage.getItem(TOKEN_KEY) || ""; }
+  function setToken(t){ localStorage.setItem(TOKEN_KEY, t); }
+  function clearToken(){ localStorage.removeItem(TOKEN_KEY); }
+
+  $("saveToken").addEventListener("click", ()=>{
+    const t = norm($("token").value);
+    if(!t) return showWarn("Pega un token primero.");
+    setToken(t);
+    showOk("Token guardado en este navegador.");
+  });
+
+  $("clearToken").addEventListener("click", ()=>{
+    clearToken();
+    $("token").value = "";
+    showOk("Token borrado.");
+  });
+
+  // === GITHUB API HELPERS ===
+  async function gh(path, opts={}){
+    const token = getToken();
+    if(!token) throw new Error("Falta token. Pégalo y guarda.");
+    const res = await fetch("https://api.github.com" + path, {
+      ...opts,
+      headers: {
+        "Accept":"application/vnd.github+json",
+        "Authorization":"Bearer " + token,
+        "X-GitHub-Api-Version":"2022-11-28",
+        ...(opts.headers||{})
+      }
+    });
+    if(!res.ok){
+      const txt = await res.text().catch(()=> "");
+      throw new Error(`GitHub API error (${res.status}): ${txt || res.statusText}`);
+    }
+    return res.json();
+  }
+
+  function b64ToUtf8(b64){
+    const bin = atob(b64.replace(/\n/g,''));
+    const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
+    return new TextDecoder().decode(bytes);
+  }
+
+  function utf8ToB64(str){
+    const bytes = new TextEncoder().encode(str);
+    let bin = "";
+    bytes.forEach(b => bin += String.fromCharCode(b));
+    return btoa(bin);
+  }
+
+  async function loadData(){
+    setStatus("Cargando data.json…");
+    hideAlerts();
+
+    // Carga desde Pages para mostrar lista (lectura)
+    const pageUrl = new URL(window.location.href);
+    pageUrl.pathname = pageUrl.pathname.replace(/\/admin\.html$/,"/") + FILE_PATH;
+    pageUrl.search = "";
+    const res = await fetch(pageUrl.toString(), { cache:"no-store" });
+    if(!res.ok) throw new Error("No se pudo leer data.json desde Pages.");
+    const data = await res.json();
+    renderList(Array.isArray(data) ? data : []);
+    setStatus("Listo");
+    return data;
+  }
+
+  function renderList(items){
+    const list = $("list");
+    const last = items.slice(-10).reverse();
+    if(!last.length){
+      list.innerHTML = `<div class="note">data.json está vacío.</div>`;
+      return;
+    }
+    list.innerHTML = last.map(r => `
+      <div class="item">
+        <div>
+          <b>${esc(r.perro_nombre || "Reserva")} <span style="color:rgba(255,255,255,.55); font-weight:700;">(${esc(r.client_key||"")})</span></b>
+          <div class="meta">
+            ${esc(r.fecha_entrada||"—")} → ${esc(r.fecha_salida||"—")} · ${esc(r.servicio||"—")} · ${esc(r.estado||"—")}
+          </div>
+          ${r.notas_cliente ? `<div class="meta">Nota: ${esc(r.notas_cliente)}</div>` : ``}
+          ${r.cliente_nombre ? `<div class="meta">Cliente: ${esc(r.cliente_nombre)}</div>` : ``}
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function esc(s){
+    return (s??"").toString()
+      .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+  }
+
+  async function commitAppend(newItem){
+    setStatus("Preparando commit…");
+    hideAlerts();
+
+    // 1) Leer contenido actual vía API (para obtener sha)
+    const file = await gh(`/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(FILE_PATH)}?ref=${encodeURIComponent(BRANCH)}`);
+    const currentText = b64ToUtf8(file.content || "");
+    let arr;
+    try{
+      arr = JSON.parse(currentText);
+      if(!Array.isArray(arr)) arr = [];
+    }catch{
+      arr = [];
+    }
+
+    arr.push(newItem);
+
+    const updatedText = JSON.stringify(arr, null, 2) + "\n";
+    const updatedB64 = utf8ToB64(updatedText);
+
+    setStatus("Enviando commit…");
+    await gh(`/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(FILE_PATH)}`, {
+      method: "PUT",
+      headers: { "Content-Type":"application/json" },
+      body: JSON.stringify({
+        message: `Add reserva ${newItem.perro_nombre || ""} (${newItem.client_key})`,
+        content: updatedB64,
+        sha: file.sha,
+        branch: BRANCH
+      })
+    });
+
+    setStatus("Commit hecho");
+  }
+
+  function validateDateISO(s){
+    const t = norm(s);
+    return /^\d{4}-\d{2}-\d{2}$/.test(t);
+  }
+
+  function buildNewItem(){
+    const client_key = norm($("client_key").value);
+    const cliente_nombre = norm($("cliente_nombre").value);
+    const perro_nombre = norm($("perro_nombre").value);
+    const fecha_entrada = norm($("fecha_entrada").value);
+    const fecha_salida = norm($("fecha_salida").value);
+    const servicio = $("servicio").value;
+    const estado = $("estado").value;
+    const notas_cliente = norm($("notas_cliente").value);
+
+    if(!client_key) throw new Error("Falta client_key.");
+    if(!perro_nombre) throw new Error("Falta perro_nombre.");
+    if(!validateDateISO(fecha_entrada)) throw new Error("fecha_entrada debe ser YYYY-MM-DD.");
+    if(!validateDateISO(fecha_salida)) throw new Error("fecha_salida debe ser YYYY-MM-DD.");
+
+    return { client_key, cliente_nombre, perro_nombre, fecha_entrada, fecha_salida, servicio, estado, notas_cliente };
+  }
+
+  $("addReserva").addEventListener("click", async ()=>{
+    try{
+      const item = buildNewItem();
+      updateClientLink();
+      await commitAppend(item);
+      showOk("Reserva guardada. Pages puede tardar 20–60s en reflejarlo.");
+      await loadData();
+    }catch(e){
+      showWarn(e.message || "Error");
+      setStatus("Error");
+    }
+  });
+
+  $("reload").addEventListener("click", async ()=>{
+    try{
+      await loadData();
+      showOk("Recargado.");
+    }catch(e){
+      showWarn(e.message || "Error");
+      setStatus("Error");
+    }
+  });
+
+  // Init
+  (function(){
+    $("token").value = getToken();
+    updateClientLink();
+    loadData().catch(err=>{
+      showWarn(err.message || "Error");
+      setStatus("Error");
+    });
+  })();
+</script>
+</body>
+</html>
